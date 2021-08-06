@@ -4,6 +4,16 @@ class Game (){
 
   val BANK_INIT = 500
   var bank = 500.00
+  val BET_INIT_20 = (0.2 * BANK_INIT)
+  val BET_INIT_14 = (0.142 * BANK_INIT)
+  val BET_INIT_7 = (0.066 * BANK_INIT)
+  val BET_INIT_3 = (0.032 * BANK_INIT)
+  val BET_INIT_2 = (0.015 * BANK_INIT)
+  val BET_INIT_1 = (0.007 * BANK_INIT)
+
+  var CPU_BET = 0
+  var CPU_SPACE_SELECTED = "EVEN"
+
   val formatter = java.text.NumberFormat.getCurrencyInstance
   //Scanner to receive input throughout the game.
   val sc = new Scanner(System.in)
@@ -119,7 +129,7 @@ class Game (){
 
 
   def dropBall(spaceSelected: String, betAmount: Double) = {
-    val random:Int = ((Math.random()*38).toInt)
+    val random:Int = ((Math.random()*38).toInt) // 38
     val rouletteWheel = Map(
       0 -> "0", 1 -> "00", 2 -> "1R", 3 -> "2B", 4 -> "3R", 5 -> "4B", 6 -> "5R", 7 -> "6B", 8 -> "7R", 9 -> "8B",  10 -> "9R",
       11 -> "10B", 12 -> "11B", 13 -> "12R", 14 -> "13B", 15 -> "14R", 16 -> "15B", 17 -> "16R", 18 -> "17B", 19 -> "18R", 20 -> "19R",
@@ -139,8 +149,14 @@ class Game (){
       winTimes3 = betResultTimes3(spaceSelected, ballResult, random)
     }
 
-    val ssChar2 = spaceSelected.charAt(1)
-    if(spaceSelected.length == 2){
+    if(spaceSelected == "0" || spaceSelected == "00"){
+      winTimes38 = betResultTimes38(spaceSelected, ballResult, random, rouletteWheel)
+    }
+
+
+
+    if(spaceSelected.length == 2 && spaceSelected != "00"){
+      val ssChar2 = spaceSelected.charAt(1)
       if(ssChar2 == 'B' || ssChar2 == 'R'){
         winTimes38 = betResultTimes38(spaceSelected, ballResult, random, rouletteWheel)
       }
